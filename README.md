@@ -1,4 +1,14 @@
-# todo
+# Local To Do
+
+## Minimalist todo app
+
+* Stores tasks in local storage
+
+## Wishlist
+
+* Undo delete
+* Drag and drop
+* Nicer fade in / out
 
 ## Project setup
 ```
@@ -19,6 +29,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
