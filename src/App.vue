@@ -34,7 +34,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  max-width: 600px;
+  max-width: 650px;
   margin: 60px auto;
+}
+
+h1 {
+  text-align: center;
 }
 </style>

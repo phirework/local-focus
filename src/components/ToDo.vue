@@ -4,13 +4,13 @@
       <input class="task-meta name" @change="updateList(i, 'name', $event)" :value="l.name" />
       <input class="task-meta status" type="text" @change="updateList(i, 'status', $event)" :value="l.status" />
       <ColourSelect :selected="l.colour" @change-colour="updateColour(i, $event)" />
-      <button @click="deleteTask(i)">x</button>
+      <button class="task-meta" @click="deleteTask(i)">✕</button>
      </li>
-    <form class="task" @submit.prevent="addTask">
+    <form class="task" @submit.prevent="addTask" :class="colour">
       <input placeholder="Task" v-model="name" name="name" class="task-meta name" />
       <input placeholder="Current status" v-model="status" name="status" class="task-meta status" />
       <ColourSelect @change-colour="addColour" />
-      <button type="submit">add</button>
+      <button class="task-meta add" type="submit">✓</button>
     </form>
   </ul>
 </template>
@@ -32,18 +32,20 @@ export default {
   },
   computed: {
     list: function() {
-      console.log(localStorage.phireList);
       return localStorage.phireList ? JSON.parse(localStorage.phireList) : []
     }
   },
-  mounted: function() {
-    console.log(localStorage.phireList);
-  },
   methods: {
-    changeStatus: function(event, index) {
-      console.log(event);
-      console.log(index);
-      console.log(this.color);
+    sortList: function(array) {
+      return array.sort((a, b) => {
+        if (a.colour === 'green' || b.colour === 'red') {
+          return -1;
+        } else if (a.colour === 'red' || b.colour === 'green') {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     },
     deleteTask: function(index) {
       const list = [...this.list];
@@ -51,16 +53,15 @@ export default {
       this.update('phireList', list);
     },
     update: function(storageKey, values) {
-      localStorage.setItem(storageKey, JSON.stringify(values));
+      localStorage.setItem(storageKey, JSON.stringify(this.sortList(values)));
       this.$emit('re-render');
     },
-    addColour: function(color) {
-      this.color = color;
+    addColour: function(colour) {
+      this.colour = colour;
     },
     addTask: function() {
       const newList = [...this.list]
-      newList.push({ name: this.name, status: this.status, colour: this.color });
-      console.log(newList);
+      newList.push({ name: this.name, status: this.status, colour: this.colour ? this.colour : 'green' });
       this.update('phireList', newList);
     },
     updateColour: function(index, colour) {
@@ -73,40 +74,92 @@ export default {
       }
       this.update('phireList', newList);
     },
-    getClass: function (statusType) {
-      console.log(statusType);
-      return "red";
-    },
   }
 }
 
 </script>
 
 <style>
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+input {
+  padding: 8px 15px;
+  background: transparent;
+  border: 0;
+  cursor: text;
+  width: 40%;
+  font-size: 18px;
+}
+
+form input {
+  border: 1px solid #eee;
+}
+
+.red input,
+.green input {
+  color: #fff;
+}
+
+
+input:focus {
+  background: #fff;
+  color: #2c3e50;
+
+}
+
+button {
+  cursor: pointer;
+}
+
 .task {
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 10px 20px;
-  margin: 20px;
+  padding: 10px 15px;
+  margin: 0 -10px 12px;
   box-sizing: border-box;
   display: flex;
 }
 
 .task-meta {
-  cursor: pointer;
+  margin: 0 10px;
+}
+
+
+button.task-meta {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  text-align: center;
+  font-weight: bold;
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+button.task-meta.add {
+  border-color: #2c3e50;
+  color: #2c3e50;
 }
 
 .green {
-  background: green;
+  background: #28a745;
 }
 
 .yellow {
-  background: yellow;
+  background: #ffc107;
 }
 
 .red {
-  background: red;
+  background: #dc3545;
 }
 
 </style>

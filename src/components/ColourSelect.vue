@@ -1,9 +1,7 @@
 <template>
-  <select @change="emitColour">
-    <option value=""></option>
-    <option :selected="selected === 'green'" value="green">green</option>
-    <option :selected="selected === 'yellow'" value="yellow">yellow</option>
-    <option :selected="selected === 'red'" value="red">red</option>
+  <select class="task-meta" @change="emitColour">
+    <option :class="c" v-for="c in options" :selected="selected == c" :key="c" :value="c">✎</option>
+
   </select>
 </template>
 
@@ -12,7 +10,12 @@ export default {
   name: 'Colour',
   data: function() {
     return {
-      colour: ''
+      colour: '',
+      options: [
+        "green",
+        "yellow",
+        "red"
+      ]
     }
   },
   props: {
@@ -26,5 +29,17 @@ export default {
 }
 </script>
 
-<style >
+<style>
+select {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  padding-left: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: center;
+  font-weight: bold;
+}
+
 </style>
