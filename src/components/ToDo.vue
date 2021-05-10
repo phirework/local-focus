@@ -96,7 +96,6 @@ input {
   background: transparent;
   border: 0;
   cursor: text;
-  width: 40%;
   font-size: 18px;
 }
 
@@ -113,7 +112,6 @@ form input {
 input:focus {
   background: #fff;
   color: #2c3e50;
-
 }
 
 button {
@@ -125,7 +123,7 @@ button {
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 10px 15px;
-  margin: 0 -10px 12px;
+  margin: 0 10px 12px;
   box-sizing: border-box;
   display: flex;
 }
@@ -134,6 +132,13 @@ button {
   margin: 0 10px;
 }
 
+.name {
+  width: 60%;
+}
+
+.status {
+  width: 40%;
+}
 
 button.task-meta {
   width: 30px;
@@ -166,5 +171,4 @@ button.task-meta.add {
 .red {
   background: #dc3545;
 }
-
 </style>
