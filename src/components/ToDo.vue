@@ -26,7 +26,7 @@ export default {
     return {
       name: '',
       status: '',
-      colour: ''
+      colour: 'none'
     }
 
   },
@@ -38,13 +38,18 @@ export default {
   methods: {
     sortList: function(array) {
       return array.sort((a, b) => {
-        if (a.colour === 'green' || b.colour === 'red') {
+        if (a.colour === b.colour) {
+          if (a.name < b.name) {
+            return -1
+          } else if (a.name > b.name) {
+            return 1;
+          }
+        } else if (a.colour === 'green' || b.colour === 'red' || b.colour === 'none') {
           return -1;
-        } else if (a.colour === 'red' || b.colour === 'green') {
+        } else if (a.colour === 'red' || a.colour === 'none' || b.colour === 'green') {
           return 1;
-        } else {
-          return 0;
         }
+        return 0;
       });
     },
     deleteTask: function(index) {
@@ -61,7 +66,7 @@ export default {
     },
     addTask: function() {
       const newList = [...this.list]
-      newList.push({ name: this.name, status: this.status, colour: this.colour ? this.colour : 'green' });
+      newList.push({ name: this.name, status: this.status, colour: this.colour });
       this.update('phireList', newList);
     },
     updateColour: function(index, colour) {
@@ -144,7 +149,7 @@ button.task-meta {
   margin-bottom: 5px;
 }
 
-
+.none button.task-meta,
 button.task-meta.add {
   border-color: #2c3e50;
   color: #2c3e50;
